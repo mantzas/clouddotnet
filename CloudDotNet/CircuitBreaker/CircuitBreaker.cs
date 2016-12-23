@@ -61,14 +61,6 @@ namespace CloudDotNet.CircuitBreaker
             {
                 state.IncreaseExecutions();
 
-                status = state.GetStatus(setting);
-
-                if (status == CircuitBreakerStatus.Open)
-                {
-                    _logger.LogWarning("Open! {0}", state);
-                    throw new CircuitBreakerOpenException();
-                }
-
                 var result = await func().ConfigureAwait(false);
 
                 if (status == CircuitBreakerStatus.HalfOpen)
