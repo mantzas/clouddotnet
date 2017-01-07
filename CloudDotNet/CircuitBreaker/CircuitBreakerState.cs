@@ -8,7 +8,7 @@ namespace CloudDotNet.CircuitBreaker
     /// </summary>
     public class CircuitBreakerState
     {
-        private static readonly object _syncLock = new object();
+        private static int usingResource = 0;
         private int _currentFailureCount;
         private int _retrySuccessCount;
         private int _currentExecutions;
@@ -31,7 +31,7 @@ namespace CloudDotNet.CircuitBreaker
         }
 
         /// <summary>
-        /// The timestamp of the last failure
+        /// The time stamp of the last failure
         /// </summary>
         public DateTimeOffset LastFailureTimestamp
         {
@@ -59,12 +59,7 @@ namespace CloudDotNet.CircuitBreaker
         /// </summary>
         public void Reset()
         {
-            lock (_syncLock)
-            {
-                _currentFailureCount = 0;
-                _lastFailureTimestamp = DateTimeOffset.MaxValue.ToUniversalTime();
-                _retrySuccessCount = 0;
-            }
+            SafeExecute(ref usingResource, InnerReset);
         }
 
         /// <summary>
@@ -72,11 +67,11 @@ namespace CloudDotNet.CircuitBreaker
         /// </summary>
         public void IncrementFailureCount()
         {
-            lock (_syncLock)
+            SafeExecute(ref usingResource, ()=> 
             {
                 _currentFailureCount++;
                 _lastFailureTimestamp = DateTimeOffset.UtcNow;
-            }
+            });
         }
 
         /// <summary>
@@ -110,33 +105,9 @@ namespace CloudDotNet.CircuitBreaker
         /// <returns></returns>
         public CircuitBreakerStatus GetStatus(CircuitBreakerSetting setting)
         {
-            lock (_syncLock)
-            {
-                if (setting.FailureThreshold > _currentFailureCount)
-                {
-                    return CircuitBreakerStatus.Closed;
-                }
-
-                if (_lastFailureTimestamp + setting.RetryTimeout <= DateTimeOffset.UtcNow)
-                {
-                    if (_retrySuccessCount >= setting.RetrySuccessThreshold)
-                    {
-                        Reset();
-                        return CircuitBreakerStatus.Closed;
-                    }
-
-                    if (_currentExecutions > setting.MaxRetryExecutionThreshold)
-                    {
-                        return CircuitBreakerStatus.Open;
-                    }
-
-                    return CircuitBreakerStatus.HalfOpen;
-                }
-
-                return CircuitBreakerStatus.Open;
-            }
+            return SafeExecute(ref usingResource, ()=>GetInnerStatus(setting));
         }
-
+        
         /// <summary>
         /// ToString override
         /// </summary>
@@ -146,6 +117,69 @@ namespace CloudDotNet.CircuitBreaker
             return string.Format("Circuit State: Executions={0} Failures={1} LastFailure={2} RetrySuccesses={3}",
                                  _currentExecutions, _currentFailureCount, _lastFailureTimestamp.ToString("o"),
                                  RetrySuccessCount);
+        }
+
+        private CircuitBreakerStatus GetInnerStatus(CircuitBreakerSetting setting)
+        {
+            var status = CircuitBreakerStatus.Open;
+
+            if (setting.FailureThreshold > _currentFailureCount)
+            {
+                status = CircuitBreakerStatus.Closed;
+            }
+            else
+            {
+                if (_lastFailureTimestamp + setting.RetryTimeout <= DateTimeOffset.UtcNow)
+                {
+                    if (_retrySuccessCount >= setting.RetrySuccessThreshold)
+                    {
+                        InnerReset();
+                        status = CircuitBreakerStatus.Closed;
+                    }
+                    else if (_currentExecutions > setting.MaxRetryExecutionThreshold)
+                    {
+                        status = CircuitBreakerStatus.Open;
+                    }
+                    else
+                    {
+                        status = CircuitBreakerStatus.HalfOpen;
+                    }
+                }
+            }
+
+            return status;
+        }
+
+        private void InnerReset()
+        {
+            _currentFailureCount = 0;
+            _lastFailureTimestamp = DateTimeOffset.MaxValue.ToUniversalTime();
+            _retrySuccessCount = 0;
+        }
+
+        private T SafeExecute<T>(ref int usingResource, Func<T> fun)
+        {
+            // Spin until we get a lock
+            while (0 != Interlocked.Exchange(ref usingResource, 1))
+            {
+                Thread.Sleep(0);
+            }
+
+            var result = fun();
+            Interlocked.Exchange(ref usingResource, 0);
+            return result;
+        }
+
+        private void SafeExecute(ref int usingResource, Action act)
+        {
+            // Spin until we get a lock
+            while (0 != Interlocked.Exchange(ref usingResource, 1))
+            {
+                Thread.Sleep(0);
+            }
+
+            act();
+            Interlocked.Exchange(ref usingResource, 0);
         }
     }
 }
