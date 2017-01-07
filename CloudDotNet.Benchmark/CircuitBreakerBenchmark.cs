@@ -20,9 +20,11 @@ namespace CloudDotNet.Benchmark
         }
 
         [Benchmark]
-        public Task<string> Execute()
+        public string Execute()
         {
-            return _breaker.ExecuteAsync("KEY", () => Task.FromResult(string.Empty));
+            Parallel.For(0, 1000, async (i, s) => await _breaker.ExecuteAsync("KEY", () => Task.FromResult(string.Empty)));
+
+            return string.Empty;
         }
 
         private class Provider : ICircuitBreakerSettingsProvider
