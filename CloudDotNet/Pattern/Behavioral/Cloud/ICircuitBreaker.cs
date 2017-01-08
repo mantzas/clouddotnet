@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace CloudDotNet.CircuitBreaker
+namespace CloudDotNet.Pattern.Behavioral.Cloud
 {
     /// <summary>
     /// The Circuit Breaker interface

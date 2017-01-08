@@ -1,4 +1,4 @@
-﻿namespace CloudDotNet.CircuitBreaker
+﻿namespace CloudDotNet.Pattern.Behavioral.Cloud
 {
     /// <summary>
     /// Circuit Breaker Status

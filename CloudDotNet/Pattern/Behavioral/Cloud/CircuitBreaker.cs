@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ValidDotNet;
 
-namespace CloudDotNet.CircuitBreaker
+namespace CloudDotNet.Pattern.Behavioral.Cloud
 {
     /// <summary>
     /// Circuit Breaker Pattern

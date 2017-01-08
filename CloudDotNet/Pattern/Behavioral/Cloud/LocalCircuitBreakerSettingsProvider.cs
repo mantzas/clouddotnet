@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
-namespace CloudDotNet.CircuitBreaker
+namespace CloudDotNet.Pattern.Behavioral.Cloud
 {
     /// <summary>
     /// A Circuit Breaker setting provider based on a concurrent dictionary

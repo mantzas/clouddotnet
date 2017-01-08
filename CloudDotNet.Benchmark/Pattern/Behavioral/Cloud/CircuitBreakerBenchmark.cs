@@ -2,27 +2,27 @@
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Exporters;
-using CloudDotNet.CircuitBreaker;
+using CloudDotNet.Pattern.Behavioral.Cloud;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace CloudDotNet.Benchmark
+namespace CloudDotNet.Benchmark.Pattern.Behavioral.Cloud
 {
     [Config(typeof(Config))]
     public class CircuitBreakerBenchmark
     {
-        private readonly CircuitBreaker.CircuitBreaker _breaker;
+        private readonly CircuitBreaker _breaker;
 
         public CircuitBreakerBenchmark()
         {
-            _breaker = new CircuitBreaker.CircuitBreaker(new Logger(), new Provider(), new string[] { "KEY" });
+            _breaker = new CircuitBreaker(new Logger(), new Provider(), new string[] { "KEY" });
         }
 
         [Benchmark]
         public string Execute()
         {
-            Parallel.For(0, 1000, async (i, s) => await _breaker.ExecuteAsync("KEY", () => Task.FromResult(string.Empty)));
+            Parallel.For(0, 1000, async (i, s) => await _breaker.ExecuteAsync("KEY", () => Task.FromResult(string.Empty)).ConfigureAwait(false));
 
             return string.Empty;
         }
@@ -48,7 +48,7 @@ namespace CloudDotNet.Benchmark
             }
         }
 
-        private class Logger : ILogger<CircuitBreaker.CircuitBreaker>
+        private class Logger : ILogger<CircuitBreaker>
         {
             public IDisposable BeginScope<TState>(TState state)
             {

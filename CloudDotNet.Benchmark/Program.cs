@@ -1,4 +1,6 @@
 ﻿using BenchmarkDotNet.Running;
+using CloudDotNet.Benchmark.Pattern.Behavioral.Cloud;
+using CloudDotNet.Benchmark.Pattern.Creational;
 
 namespace CloudDotNet.Benchmark
 {
@@ -6,7 +8,8 @@ namespace CloudDotNet.Benchmark
     {
         public static void Main()
         {
-            var summary = BenchmarkRunner.Run<CircuitBreakerBenchmark>();
+            var circuitSummary = BenchmarkRunner.Run<CircuitBreakerBenchmark>();
+            var poolSummary = BenchmarkRunner.Run<ObjectPoolBenchmark>();
         }
     }
 }

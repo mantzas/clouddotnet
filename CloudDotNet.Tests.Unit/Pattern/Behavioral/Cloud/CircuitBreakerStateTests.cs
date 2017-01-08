@@ -1,10 +1,10 @@
-﻿using CloudDotNet.CircuitBreaker;
+﻿using CloudDotNet.Pattern.Behavioral.Cloud;
 using FluentAssertions;
 using System;
 using System.Threading;
 using Xunit;
 
-namespace CloudDotNet.Tests.Unit.CircuitBreaker
+namespace CloudDotNet.Tests.Unit.Pattern.Behavioral.Cloud
 {
     public class CircuitBreakerStateTests
     {

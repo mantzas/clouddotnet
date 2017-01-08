@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CloudDotNet.CircuitBreaker
+namespace CloudDotNet.Pattern.Behavioral.Cloud
 {
     /// <summary>
     /// Circuit Breaker Open Exception

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace CloudDotNet.CircuitBreaker
+namespace CloudDotNet.Pattern.Behavioral.Cloud
 {
     /// <summary>
     /// A Circuit Breaker Settings Provider interface

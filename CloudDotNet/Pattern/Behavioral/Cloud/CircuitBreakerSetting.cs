@@ -1,7 +1,7 @@
 ﻿using System;
 using ValidDotNet;
 
-namespace CloudDotNet.CircuitBreaker
+namespace CloudDotNet.Pattern.Behavioral.Cloud
 {
     /// <summary>
     /// Circuit Breaker Settings

@@ -1,4 +1,4 @@
-﻿using CloudDotNet.CircuitBreaker;
+﻿using CloudDotNet.Pattern.Behavioral.Cloud;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace CloudDotNet.Tests.Unit.CircuitBreaker
+namespace CloudDotNet.Tests.Unit.Pattern.Behavioral.Cloud
 {
     public class CircuitBreakerTests
     {
@@ -22,33 +22,33 @@ namespace CloudDotNet.Tests.Unit.CircuitBreaker
         [Fact]
         public void Constructor_NullLogger_Throws()
         {
-            Action act = () => new CloudDotNet.CircuitBreaker.CircuitBreaker(null ,null, null);
+            Action act = () => new CircuitBreaker(null ,null, null);
             act.ShouldThrow<ArgumentNullException>();
         }
 
         [Fact]
         public void Constructor_NullProvider_Throws()
         {
-            var logger = Substitute.For<ILogger<CloudDotNet.CircuitBreaker.CircuitBreaker>>();
-            Action act = () => new CloudDotNet.CircuitBreaker.CircuitBreaker(logger, null, null);
+            var logger = Substitute.For<ILogger<CircuitBreaker>>();
+            Action act = () => new CircuitBreaker(logger, null, null);
             act.ShouldThrow<ArgumentNullException>();
         }
 
         [Fact]
         public void Constructor_NullKeys_Throws()
         {
-            var logger = Substitute.For<ILogger<CloudDotNet.CircuitBreaker.CircuitBreaker>>();
+            var logger = Substitute.For<ILogger<CircuitBreaker>>();
             var provider = Substitute.For<ICircuitBreakerSettingsProvider>();
-            Action act = () => new CloudDotNet.CircuitBreaker.CircuitBreaker(logger, provider, null);
+            Action act = () => new CircuitBreaker(logger, provider, null);
             act.ShouldThrow<ArgumentNullException>();
         }
 
         [Fact]
         public void Constructor_EmptyKeys_Throws()
         {
-            var logger = Substitute.For<ILogger<CloudDotNet.CircuitBreaker.CircuitBreaker>>();
+            var logger = Substitute.For<ILogger<CircuitBreaker>>();
             var provider = Substitute.For<ICircuitBreakerSettingsProvider>();
-            Action act = () => new CloudDotNet.CircuitBreaker.CircuitBreaker(logger, provider, new string[0]);
+            Action act = () => new CircuitBreaker(logger, provider, new string[0]);
             act.ShouldThrow<ArgumentException>();
         }
 
@@ -56,10 +56,10 @@ namespace CloudDotNet.Tests.Unit.CircuitBreaker
         public void Execute_KeyNull_Throws()
         {
             const string Key = "KEY";
-            var logger = Substitute.For<ILogger<CloudDotNet.CircuitBreaker.CircuitBreaker>>();
+            var logger = Substitute.For<ILogger<CircuitBreaker>>();
             var provider = Substitute.For<ICircuitBreakerSettingsProvider>();
             var setting = new CircuitBreakerSetting(Key, 1, TimeSpan.FromMilliseconds(20), 1, 1);
-            var circuit = new CloudDotNet.CircuitBreaker.CircuitBreaker(logger, provider, new[] { Key });
+            var circuit = new CircuitBreaker(logger, provider, new[] { Key });
             Func<Task<string>> func = async () => await circuit.ExecuteAsync<string>(null, null).ConfigureAwait(false);
             func.ShouldThrow<ArgumentException>();
         }
@@ -68,10 +68,10 @@ namespace CloudDotNet.Tests.Unit.CircuitBreaker
         public void Execute_FuncNull_Throws()
         {
             const string Key = "KEY";
-            var logger = Substitute.For<ILogger<CloudDotNet.CircuitBreaker.CircuitBreaker>>();
+            var logger = Substitute.For<ILogger<CircuitBreaker>>();
             var provider = Substitute.For<ICircuitBreakerSettingsProvider>();
             var setting = new CircuitBreakerSetting(Key, 1, TimeSpan.FromMilliseconds(20), 1, 1);
-            var circuit = new CloudDotNet.CircuitBreaker.CircuitBreaker(logger, provider, new[] { Key });
+            var circuit = new CircuitBreaker(logger, provider, new[] { Key });
             Func<Task<string>> func = async () => await circuit.ExecuteAsync<string>(Key, null).ConfigureAwait(false);
             func.ShouldThrow<ArgumentException>();
         }
@@ -83,7 +83,7 @@ namespace CloudDotNet.Tests.Unit.CircuitBreaker
             var provider = Substitute.For<ICircuitBreakerSettingsProvider>();
             var setting = new CircuitBreakerSetting(Key, 1, TimeSpan.FromMilliseconds(20), 1, 1);
             provider.GetAsync(Key).Returns(Task.FromResult(setting));
-            var circuit = new CloudDotNet.CircuitBreaker.CircuitBreaker(new TestLogger(_output), provider, new[] { Key });
+            var circuit = new CircuitBreaker(new TestLogger(_output), provider, new[] { Key });
             var response = await circuit.ExecuteAsync(Key, ReturnSuccess).ConfigureAwait(false);
             response.Should().BeNullOrEmpty();
         }
@@ -95,7 +95,7 @@ namespace CloudDotNet.Tests.Unit.CircuitBreaker
             var provider = Substitute.For<ICircuitBreakerSettingsProvider>();
             var setting = new CircuitBreakerSetting(Key, 1, TimeSpan.FromMilliseconds(20), 1, 1);
             provider.GetAsync(Key).Returns(Task.FromResult(setting));
-            var circuit = new CloudDotNet.CircuitBreaker.CircuitBreaker(new TestLogger(_output), provider, new[] { Key });
+            var circuit = new CircuitBreaker(new TestLogger(_output), provider, new[] { Key });
             Func<Task<string>> func = async () => await circuit.ExecuteAsync(Key, ReturnThrows).ConfigureAwait(false);
             func.ShouldThrow<Exception>();
         }
@@ -107,7 +107,7 @@ namespace CloudDotNet.Tests.Unit.CircuitBreaker
             var provider = Substitute.For<ICircuitBreakerSettingsProvider>();
             var setting = new CircuitBreakerSetting(Key, 1, TimeSpan.FromMilliseconds(20), 1, 1);
             provider.GetAsync(Key).Returns(Task.FromResult(setting));
-            var circuit = new CloudDotNet.CircuitBreaker.CircuitBreaker(new TestLogger(_output), provider, new[] { Key });
+            var circuit = new CircuitBreaker(new TestLogger(_output), provider, new[] { Key });
             Func<Task<string>> func = async () => await circuit.ExecuteAsync(Key, ReturnThrows).ConfigureAwait(false);
             func.ShouldThrow<Exception>();
             func.ShouldThrow<CircuitBreakerOpenException>();
@@ -121,7 +121,7 @@ namespace CloudDotNet.Tests.Unit.CircuitBreaker
             var provider = Substitute.For<ICircuitBreakerSettingsProvider>();
             var setting = new CircuitBreakerSetting(Key, 1, TimeSpan.FromMilliseconds(20), 1, 1);
             provider.GetAsync(Key).Returns(Task.FromResult(setting));
-            var circuit = new CloudDotNet.CircuitBreaker.CircuitBreaker(new TestLogger(_output), provider, new[] { Key });
+            var circuit = new CircuitBreaker(new TestLogger(_output), provider, new[] { Key });
             Func<Task<string>> funcThrows = async () => await circuit.ExecuteAsync(Key, ReturnThrows).ConfigureAwait(false);
             funcThrows.ShouldThrow<Exception>();
             funcThrows.ShouldThrow<CircuitBreakerOpenException>();
@@ -146,7 +146,7 @@ namespace CloudDotNet.Tests.Unit.CircuitBreaker
             return Task.FromResult(string.Empty);
         }
 
-        private class TestLogger : ILogger<CloudDotNet.CircuitBreaker.CircuitBreaker>
+        private class TestLogger : ILogger<CircuitBreaker>
         {
             private readonly ITestOutputHelper _output;
 
