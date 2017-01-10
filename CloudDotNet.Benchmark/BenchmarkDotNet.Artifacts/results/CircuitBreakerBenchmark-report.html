@@ -20,15 +20,13 @@ dotnet cli version=1.0.0-preview2-1-003177
   [Host]     : .NET Core 4.6.24628.01, 64bit RyuJIT
   DefaultJob : .NET Core 4.6.24628.01, 64bit RyuJIT
 </code></pre>
-<pre><code>Gen 0=138.6068  Allocated=51.79 kB  
-</code></pre>
+<pre><code></code></pre>
 
 <table>
-<thead><tr><th>Method</th><th> Mean</th><th>StdDev</th><th>StdErr</th><th>  Min</th><th>   Q1</th><th>Median</th><th>   Q3</th><th>  Max</th><th>   P0</th><th>  P25</th><th>  P50</th><th>  P80</th><th>  P85</th><th>  P90</th><th>  P95</th><th> P100</th><th>Op/s</th>
+<thead><tr><th>Method</th><th>     Mean</th><th> StdDev</th><th> StdErr</th><th>      Min</th><th>       Q1</th><th>   Median</th><th>       Q3</th><th>      Max</th><th>       P0</th><th>      P25</th><th>      P50</th><th>      P80</th><th>      P85</th><th>      P90</th><th>      P95</th><th>     P100</th><th>Op/s</th><th>Scaled</th><th>Scaled-StdDev</th><th>Gen 0</th><th>Allocated</th>
 </tr>
-</thead><tbody><tr><td>Execute</td><td>234.7074 us</td><td>5.3413 us</td><td>1.3791 us</td><td>223.6322 us</td><td>231.3217 us</td><td>234.8197 us</td><td>237.8083 us</td><td>243.1051 us</td><td>223.6322 us</td><td>231.7731 us</td><td>234.8197 us</td><td>238.4468 us</td><td>240.6815 us</td><td>242.1669 us</td><td>242.9926 us</td><td>243.1051 us</td><td>4260.62</td>
+</thead><tbody><tr><td>Sequential</td><td>368.5007 ns</td><td>1.9888 ns</td><td>0.5135 ns</td><td>365.8206 ns</td><td>366.5971 ns</td><td>368.0865 ns</td><td>370.2359 ns</td><td>371.9243 ns</td><td>365.8206 ns</td><td>366.6297 ns</td><td>368.0865 ns</td><td>370.2980 ns</td><td>370.5156 ns</td><td>370.6896 ns</td><td>371.1267 ns</td><td>371.9243 ns</td><td>2713699.17</td><td>1.00</td><td>   0.00</td><td>0.1566</td><td>518 B</td>
+</tr><tr><td>Parallel</td><td>240,461.4425 ns</td><td>6,415.6303 ns</td><td>1,656.5086 ns</td><td>225,695.4876 ns</td><td>235,612.1533 ns</td><td>242,520.6176 ns</td><td>245,057.3128 ns</td><td>250,999.7948 ns</td><td>225,695.4876 ns</td><td>235,703.8235 ns</td><td>242,520.6176 ns</td><td>245,080.3660 ns</td><td>245,161.0525 ns</td><td>245,904.7711 ns</td><td>247,774.9678 ns</td><td>250,999.7948 ns</td><td>4158.67</td><td>652.56</td><td>  17.16</td><td>138.5417</td><td>49.2 kB</td>
 </tr></tbody></table>
 </body>
 </html>
->
-html>

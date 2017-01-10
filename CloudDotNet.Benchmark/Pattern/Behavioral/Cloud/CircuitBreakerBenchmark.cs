@@ -19,8 +19,14 @@ namespace CloudDotNet.Benchmark.Pattern.Behavioral.Cloud
             _breaker = new CircuitBreaker(new Logger(), new Provider(), new string[] { "KEY" });
         }
 
-        [Benchmark]
-        public string Execute()
+        [Benchmark(Baseline = true, Description = "Sequential")]
+        public Task<string> ExecuteSingle()
+        {
+            return _breaker.ExecuteAsync("KEY", () => Task.FromResult(string.Empty));
+        }
+
+        [Benchmark(Description = "Parallel")]
+        public string ExecuteParallel()
         {
             Parallel.For(0, 1000, async (i, s) => await _breaker.ExecuteAsync("KEY", () => Task.FromResult(string.Empty)).ConfigureAwait(false));
 
