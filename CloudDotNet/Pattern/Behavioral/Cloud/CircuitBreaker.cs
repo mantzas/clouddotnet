@@ -63,12 +63,13 @@ namespace CloudDotNet.Pattern.Behavioral.Cloud
 
                 var result = await func().ConfigureAwait(false);
 
-                if (status == CircuitBreakerStatus.HalfOpen)
+                if (status != CircuitBreakerStatus.HalfOpen)
                 {
-                    state.IncrementRetrySuccessCount();
-                    _logger.LogInformation("Half open. Retry successes incremented. {0}", state);
+                    return result;
                 }
 
+                state.IncrementRetrySuccessCount();
+                _logger.LogInformation("Half open. Retry successes incremented. {0}", state);
                 return result;
             }
             catch (Exception)
