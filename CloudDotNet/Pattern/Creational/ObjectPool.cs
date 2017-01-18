@@ -20,7 +20,6 @@ namespace CloudDotNet.Pattern.Creational
         public ObjectPool(Func<T> objectFactory, Action<T> objectSanitizer)
         {
             objectFactory.ThrowIfNull("objectFactory");
-            objectSanitizer.ThrowIfNull("objectSanitizer");
 
             _pool = new ConcurrentBag<T>();
             _objectFactory = objectFactory;
@@ -44,7 +43,7 @@ namespace CloudDotNet.Pattern.Creational
         /// <param name="item">The object to return to the pool</param>
         public void Return(T item)
         {
-            _objectSanitizer(item);
+            _objectSanitizer?.Invoke(item);
             _pool.Add(item);
         }
 

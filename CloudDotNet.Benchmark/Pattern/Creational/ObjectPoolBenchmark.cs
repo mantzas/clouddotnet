@@ -15,9 +15,9 @@ namespace CloudDotNet.Benchmark.Pattern.Creational
 
         public ObjectPoolBenchmark()
         {
-            _emptyPool = new ObjectPool<Test>(() => Create(), Sanitize);
-            _fullPool = new ObjectPool<Test>(() => Create(), Sanitize);
-            for (int i = 0; i < 1000; i++)
+            _emptyPool = new ObjectPool<Test>(Create, Sanitize);
+            _fullPool = new ObjectPool<Test>(Create, Sanitize);
+            for (var i = 0; i < 100000; i++)
             {
                 _fullPool.Return(new Test());
             }            
@@ -38,6 +38,20 @@ namespace CloudDotNet.Benchmark.Pattern.Creational
             var item = _fullPool.Rent();
             item.Name = "Benchmark";
             _fullPool.Return(item);
+            return item;
+        }
+
+        [Benchmark(Description = "Full pool Rent - Return 10000")]
+        public Test FullPoolRentReturn10000()
+        {
+            Test item = null;
+
+            for (var i = 0; i < 10000; i++)
+            {
+                item = _fullPool.Rent();
+                _fullPool.Return(item);
+            }
+
             return item;
         }
 
@@ -72,17 +86,19 @@ namespace CloudDotNet.Benchmark.Pattern.Creational
 
             #region IDisposable Support
 
-            private bool disposedValue = false; // To detect redundant calls
+            private bool _disposedValue; // To detect redundant calls
 
             protected virtual void Dispose(bool disposing)
             {
-                if (!disposedValue)
+                if (_disposedValue)
                 {
-                    if (disposing)
-                    {
-                    }
-                    disposedValue = true;
+                    return;
                 }
+
+                if (disposing)
+                {
+                }
+                _disposedValue = true;
             }
 
             void IDisposable.Dispose()
@@ -93,14 +109,8 @@ namespace CloudDotNet.Benchmark.Pattern.Creational
             #endregion
         }
 
-        private Test Create()
-        {
-            return new Test { Name = "Test" };
-        }
+        private static Test Create() => new Test { Name = "Test" };
 
-        private void Sanitize(Test test)
-        {
-            test.Name = null;
-        }
+        private static void Sanitize(Test test) => test.Name = null;
     }
 }

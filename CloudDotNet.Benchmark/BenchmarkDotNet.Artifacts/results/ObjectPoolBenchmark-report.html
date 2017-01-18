@@ -13,21 +13,21 @@
 </head>
 <body>
 <pre><code>
-BenchmarkDotNet=v0.10.1, OS=Windows
+BenchmarkDotNet=v0.10.1, OS=Linux
 Processor=?, ProcessorCount=8
-Frequency=2338334 Hz, Resolution=427.6549 ns, Timer=TSC
+Frequency=1000000000 Hz, Resolution=1.0000 ns, Timer=UNKNOWN
 dotnet cli version=1.0.0-preview2-1-003177
   [Host]     : .NET Core 4.6.24628.01, 64bit RyuJIT
   DefaultJob : .NET Core 4.6.24628.01, 64bit RyuJIT
 </code></pre>
-<pre><code>Allocated=39 B  
-</code></pre>
+<pre><code></code></pre>
 
 <table>
-<thead><tr><th>              Method</th><th> Mean</th><th>StdDev</th><th>StdErr</th><th>  Min</th><th>   Q1</th><th>Median</th><th>   Q3</th><th>  Max</th><th>   P0</th><th>  P25</th><th>  P50</th><th>  P80</th><th>  P85</th><th>  P90</th><th>  P95</th><th> P100</th><th>Op/s</th><th>Scaled</th><th>Scaled-StdDev</th><th>Gen 0</th>
+<thead><tr><th>              Method</th><th>       Mean</th><th> StdDev</th><th> StdErr</th><th>        Min</th><th>         Q1</th><th>     Median</th><th>         Q3</th><th>        Max</th><th>         P0</th><th>        P25</th><th>        P50</th><th>        P80</th><th>        P85</th><th>        P90</th><th>        P95</th><th>       P100</th><th>Op/s</th><th>Scaled</th><th>Scaled-StdDev</th><th>Gen 0</th><th>Allocated</th>
 </tr>
-</thead><tbody><tr><td>'Empty pool Rent - Return'</td><td>132.9515 ns</td><td>0.3797 ns</td><td>0.0980 ns</td><td>132.4367 ns</td><td>132.6579 ns</td><td>132.8465 ns</td><td>133.2862 ns</td><td>133.8301 ns</td><td>132.4367 ns</td><td>132.7108 ns</td><td>132.8465 ns</td><td>133.2952 ns</td><td>133.3266 ns</td><td>133.3542 ns</td><td>133.5077 ns</td><td>133.8301 ns</td><td>7521541.27</td><td>1.00</td><td>   0.00</td><td>0.0064</td>
-</tr><tr><td>'Full pool Rent - Return'</td><td>103.8508 ns</td><td>0.2352 ns</td><td>0.0607 ns</td><td>103.6101 ns</td><td>103.6739 ns</td><td>103.7377 ns</td><td>104.0936 ns</td><td>104.4046 ns</td><td>103.6101 ns</td><td>103.6866 ns</td><td>103.7377 ns</td><td>104.1007 ns</td><td>104.1257 ns</td><td>104.1316 ns</td><td>104.2146 ns</td><td>104.4046 ns</td><td>9629201.9</td><td>0.78</td><td>   0.00</td><td>0.0062</td>
+</thead><tbody><tr><td>'Empty pool Rent - Return'</td><td>152.2547 ns</td><td>0.6312 ns</td><td>0.1630 ns</td><td>151.2756 ns</td><td>151.5236 ns</td><td>152.4181 ns</td><td>152.9374 ns</td><td>152.9994 ns</td><td>151.2756 ns</td><td>151.7223 ns</td><td>152.4181 ns</td><td>152.9388 ns</td><td>152.9437 ns</td><td>152.9652 ns</td><td>152.9852 ns</td><td>152.9994 ns</td><td>6567942.96</td><td>1.00</td><td>   0.00</td><td>0.0067</td><td>39 B</td>
+</tr><tr><td>'Full pool Rent - Return'</td><td>118.8845 ns</td><td>1.2157 ns</td><td>0.3249 ns</td><td>117.2627 ns</td><td>118.0092 ns</td><td>118.4213 ns</td><td>119.7313 ns</td><td>121.0527 ns</td><td>117.2627 ns</td><td>118.0327 ns</td><td>118.4213 ns</td><td>119.9273 ns</td><td>120.2416 ns</td><td>120.5053 ns</td><td>120.7760 ns</td><td>121.0527 ns</td><td>8411522.57</td><td>0.78</td><td>   0.01</td><td>0.0067</td><td>39 B</td>
+</tr><tr><td>'Full pool Rent 10000'</td><td>1,113,209.2185 ns</td><td>7,659.2223 ns</td><td>1,977.6027 ns</td><td>1,101,087.5406 ns</td><td>1,105,198.5172 ns</td><td>1,113,236.7750 ns</td><td>1,121,060.2828 ns</td><td>1,124,445.3297 ns</td><td>1,101,087.5406 ns</td><td>1,107,020.9059 ns</td><td>1,113,236.7750 ns</td><td>1,121,291.8500 ns</td><td>1,122,102.3352 ns</td><td>1,122,561.6656 ns</td><td>1,123,287.0867 ns</td><td>1,124,445.3297 ns</td><td>898.3</td><td>7,311.61</td><td>  56.76</td><td>89.5833</td><td>398.83 kB</td>
 </tr></tbody></table>
 </body>
 </html>

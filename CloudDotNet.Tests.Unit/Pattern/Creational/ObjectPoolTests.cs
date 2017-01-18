@@ -15,13 +15,6 @@ namespace CloudDotNet.Tests.Unit.Pattern.Creational
         }
 
         [Fact]
-        public void Constructor_NullObjectSanitizer_Throws()
-        {
-            Action act = () => new ObjectPool<string>(() => string.Empty , null);
-            act.ShouldThrow<ArgumentNullException>();
-        }
-
-        [Fact]
         public void Constructor_Success()
         {
             CreatePool().Should().NotBeNull();
