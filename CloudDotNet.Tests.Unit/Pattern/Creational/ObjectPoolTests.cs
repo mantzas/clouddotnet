@@ -85,23 +85,22 @@ namespace CloudDotNet.Tests.Unit.Pattern.Creational
             pool.Count.Should().Be(0);
         }
 
-        private class Test : IDisposable
+        private sealed class Test : IDisposable
         {
             public string Name { get; set; }
 
             #region IDisposable Support
 
-            private bool disposedValue = false; // To detect redundant calls
+            private bool _disposedValue; // To detect redundant calls
 
-            protected virtual void Dispose(bool disposing)
+            private void Dispose(bool disposing)
             {
-                if (!disposedValue)
+                if (_disposedValue)
                 {
-                    if (disposing)
-                    {
-                    }
-                    disposedValue = true;
+                    return;
                 }
+
+                _disposedValue = true;
             }
 
             void IDisposable.Dispose()
@@ -112,19 +111,11 @@ namespace CloudDotNet.Tests.Unit.Pattern.Creational
             #endregion
         }
 
-        private Test Create()
-        {
-            return new Test { Name = "Test"};
-        }
+        private static Test Create() => new Test { Name = "Test"};
 
-        private void Sanitize(Test test)
+        private static ObjectPool<Test> CreatePool(int poolSize = 1000)
         {
-            test.Name = null;
-        }
-
-        private ObjectPool<Test> CreatePool(int poolSize = 1000)
-        {
-            return new ObjectPool<Test>(poolSize,() => Create());
+            return new ObjectPool<Test>(poolSize,Create);
         }
     }
 }

@@ -39,12 +39,8 @@ namespace CloudDotNet.Pattern.Creational
 
         public T Borrow()
         {
-            T result = null;
-            if (_pool.TryTake(out result))
-            {
-                return result;
-            }
-            return _objectFactory();
+            T result;
+            return _pool.TryTake(out result) ? result : _objectFactory();
         }
 
         public void Return(T item)
@@ -59,37 +55,33 @@ namespace CloudDotNet.Pattern.Creational
             _pool.Add(item);
         }
 
-        public int Count
-        {
-            get
-            {
-                return _pool.Count;
-            }
-        }
+        public int Count => _pool.Count;
 
         #region IDisposable Support
 
-        private bool disposedValue = false;
+        private bool _disposedValue;
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (_disposedValue)
             {
-                if (disposing && _areObjectsDisposable)
-                {
-                    while (_pool.Count > 0)
-                    {
-                        T item;
+                return;
+            }
 
-                        if (_pool.TryTake(out item))
-                        {
-                            ((IDisposable)item).Dispose();
-                        }
+            if (disposing && _areObjectsDisposable)
+            {
+                while (_pool.Count > 0)
+                {
+                    T item;
+
+                    if (_pool.TryTake(out item))
+                    {
+                        ((IDisposable)item).Dispose();
                     }
                 }
-
-                disposedValue = true;
             }
+
+            _disposedValue = true;
         }
 
         public void Dispose()
