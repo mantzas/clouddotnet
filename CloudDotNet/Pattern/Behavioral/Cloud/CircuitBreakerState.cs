@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using CloudDotNet.Threading;
 
 namespace CloudDotNet.Pattern.Behavioral.Cloud
 {
@@ -45,7 +46,7 @@ namespace CloudDotNet.Pattern.Behavioral.Cloud
         /// </summary>
         public void Reset()
         {
-            SafeExecute(ref _usingResource, InnerReset);
+            GatedExecution.Execute(ref _usingResource, InnerReset);
         }
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace CloudDotNet.Pattern.Behavioral.Cloud
         /// </summary>
         public void IncrementFailureCount()
         {
-            SafeExecute(ref _usingResource, ()=>
+            GatedExecution.Execute(ref _usingResource, ()=>
             {
                 CurrentFailureCount++;
                 LastFailureTimestamp = DateTimeOffset.UtcNow;
@@ -91,7 +92,7 @@ namespace CloudDotNet.Pattern.Behavioral.Cloud
         /// <returns></returns>
         public CircuitBreakerStatus GetStatus(CircuitBreakerSetting setting)
         {
-            return SafeExecute(ref _usingResource, ()=>GetInnerStatus(setting));
+            return GatedExecution.Execute(ref _usingResource, ()=>GetInnerStatus(setting));
         }
         
         /// <summary>
@@ -141,42 +142,6 @@ namespace CloudDotNet.Pattern.Behavioral.Cloud
             CurrentFailureCount = 0;
             LastFailureTimestamp = DateTimeOffset.MaxValue.ToUniversalTime();
             _retrySuccessCount = 0;
-        }
-
-        private static T SafeExecute<T>(ref int usingResource, Func<T> fun)
-        {
-            // Spin until we get a lock
-            while (0 != Interlocked.Exchange(ref usingResource, 1))
-            {
-                Thread.Sleep(0);
-            }
-
-            try
-            {
-                return fun();
-            }
-            finally
-            {
-                Interlocked.Exchange(ref usingResource, 0);
-            }
-        }
-
-        private static void SafeExecute(ref int usingResource, Action act)
-        {
-            // Spin until we get a lock
-            while (0 != Interlocked.Exchange(ref usingResource, 1))
-            {
-                Thread.Sleep(0);
-            }
-
-            try
-            {
-                act();
-            }
-            finally
-            {
-                Interlocked.Exchange(ref usingResource, 0);
-            }
         }
     }
 }
