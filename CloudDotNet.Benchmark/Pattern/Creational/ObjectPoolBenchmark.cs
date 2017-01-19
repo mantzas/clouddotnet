@@ -45,7 +45,6 @@ namespace CloudDotNet.Benchmark.Pattern.Creational
         {
             public Config()
             {
-                Add(MarkdownExporter.GitHub);
                 Add(StatisticColumn.Mean);
                 Add(StatisticColumn.StdErr);
                 Add(StatisticColumn.StdDev);
@@ -70,26 +69,10 @@ namespace CloudDotNet.Benchmark.Pattern.Creational
         {
             public string Name { get; set; }
 
-            #region IDisposable Support
-
-            private bool _disposedValue; // To detect redundant calls
-
-            protected virtual void Dispose(bool disposing)
-            {
-                if (_disposedValue)
-                {
-                    return;
-                }
-
-                _disposedValue = true;
-            }
 
             void IDisposable.Dispose()
             {
-                Dispose(true);
             }
-
-            #endregion
         }
 
         private static Test Create()

@@ -75,7 +75,6 @@ namespace CloudDotNet.Benchmark.Pattern.Behavioral.Cloud
         {
             public Config()
             {
-                Add(MarkdownExporter.GitHub);
                 Add(StatisticColumn.Mean);
                 Add(StatisticColumn.StdErr);
                 Add(StatisticColumn.StdDev);

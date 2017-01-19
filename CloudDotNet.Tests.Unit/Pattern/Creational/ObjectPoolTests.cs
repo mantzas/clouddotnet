@@ -89,26 +89,9 @@ namespace CloudDotNet.Tests.Unit.Pattern.Creational
         {
             public string Name { get; set; }
 
-            #region IDisposable Support
-
-            private bool _disposedValue; // To detect redundant calls
-
-            private void Dispose(bool disposing)
-            {
-                if (_disposedValue)
-                {
-                    return;
-                }
-
-                _disposedValue = true;
-            }
-
             void IDisposable.Dispose()
             {
-                Dispose(true);
             }
-
-            #endregion
         }
 
         private static Test Create() => new Test { Name = "Test"};

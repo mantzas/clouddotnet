@@ -13,9 +13,9 @@
 </head>
 <body>
 <pre><code>
-BenchmarkDotNet=v0.10.1, OS=Windows
+BenchmarkDotNet=v0.10.1, OS=Linux
 Processor=?, ProcessorCount=8
-Frequency=2338339 Hz, Resolution=427.6540 ns, Timer=TSC
+Frequency=1000000000 Hz, Resolution=1.0000 ns, Timer=UNKNOWN
 dotnet cli version=1.0.0-preview2-1-003177
   [Host]     : .NET Core 4.6.24628.01, 64bit RyuJIT
   DefaultJob : .NET Core 4.6.24628.01, 64bit RyuJIT
@@ -26,8 +26,8 @@ dotnet cli version=1.0.0-preview2-1-003177
 <table>
 <thead><tr><th>              Method</th><th> Mean</th><th>StdDev</th><th>StdErr</th><th>  Min</th><th>   Q1</th><th>Median</th><th>   Q3</th><th>  Max</th><th>   P0</th><th>  P25</th><th>  P50</th><th>  P80</th><th>  P85</th><th>  P90</th><th>  P95</th><th> P100</th><th>Op/s</th><th>Scaled</th><th>Scaled-StdDev</th><th>Gen 0</th>
 </tr>
-</thead><tbody><tr><td>'Empty pool Rent - Return'</td><td>179.6480 ns</td><td>1.5763 ns</td><td>0.4213 ns</td><td>177.9565 ns</td><td>178.5501 ns</td><td>179.1588 ns</td><td>180.6911 ns</td><td>183.4361 ns</td><td>177.9565 ns</td><td>178.6426 ns</td><td>179.1588 ns</td><td>180.8100 ns</td><td>181.0294 ns</td><td>181.5621 ns</td><td>182.3778 ns</td><td>183.4361 ns</td><td>5566442.44</td><td>1.00</td><td>   0.00</td><td>0.0058</td>
-</tr><tr><td>'Full pool Rent - Return'</td><td>161.7964 ns</td><td>1.7874 ns</td><td>0.5160 ns</td><td>159.2665 ns</td><td>160.6128 ns</td><td>161.6030 ns</td><td>162.5829 ns</td><td>165.7538 ns</td><td>159.2665 ns</td><td>160.6741 ns</td><td>161.6030 ns</td><td>162.9373 ns</td><td>163.4524 ns</td><td>163.8905 ns</td><td>164.7728 ns</td><td>165.7538 ns</td><td>6180608.92</td><td>0.90</td><td>   0.01</td><td>0.0057</td>
+</thead><tbody><tr><td>'Empty pool Rent - Return'</td><td>206.0995 ns</td><td>1.6747 ns</td><td>0.4324 ns</td><td>203.4180 ns</td><td>205.1304 ns</td><td>205.7007 ns</td><td>207.4740 ns</td><td>210.1606 ns</td><td>203.4180 ns</td><td>205.1568 ns</td><td>205.7007 ns</td><td>207.5028 ns</td><td>207.6035 ns</td><td>208.1014 ns</td><td>208.9448 ns</td><td>210.1606 ns</td><td>4852024.64</td><td>1.00</td><td>   0.00</td><td>0.0010</td>
+</tr><tr><td>'Full pool Rent - Return'</td><td>173.6144 ns</td><td>4.4574 ns</td><td>1.1509 ns</td><td>168.3205 ns</td><td>169.5337 ns</td><td>173.1499 ns</td><td>176.8734 ns</td><td>183.7644 ns</td><td>168.3205 ns</td><td>169.5806 ns</td><td>173.1499 ns</td><td>177.0065 ns</td><td>177.4720 ns</td><td>178.0531 ns</td><td>180.0066 ns</td><td>183.7644 ns</td><td>5759889.51</td><td>0.84</td><td>   0.02</td><td>0.0062</td>
 </tr></tbody></table>
 </body>
 </html>
