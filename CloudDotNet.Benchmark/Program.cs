@@ -8,8 +8,11 @@ namespace CloudDotNet.Benchmark
     {
         public static void Main()
         {
-            var circuitSummary = BenchmarkRunner.Run<CircuitBreakerBenchmark>();
-            var poolSummary = BenchmarkRunner.Run<ObjectPoolBenchmark>();
+            var switcher = new BenchmarkSwitcher(new[] {
+                typeof(CircuitBreakerBenchmark),
+                typeof(ObjectPoolBenchmark)
+            });
+            switcher.Run();
         }
     }
 }

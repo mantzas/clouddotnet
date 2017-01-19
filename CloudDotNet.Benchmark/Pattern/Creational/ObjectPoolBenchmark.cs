@@ -15,9 +15,9 @@ namespace CloudDotNet.Benchmark.Pattern.Creational
 
         public ObjectPoolBenchmark()
         {
-            _emptyPool = new ObjectPool<Test>(() => Create(), Sanitize);
-            _fullPool = new ObjectPool<Test>(() => Create(), Sanitize);
-            for (int i = 0; i < 1000; i++)
+            _emptyPool = new ObjectPool<Test>(1000,() => Create());
+            _fullPool = new ObjectPool<Test>(1000,() => Create());
+            for (int i = 0; i < 500; i++)
             {
                 _fullPool.Return(new Test());
             }            
@@ -26,7 +26,7 @@ namespace CloudDotNet.Benchmark.Pattern.Creational
         [Benchmark(Baseline = true, Description = "Empty pool Rent - Return")]
         public Test EmptyPoolRentReturn()
         {
-            var item = _emptyPool.Rent();
+            var item = _emptyPool.Borrow();
             item.Name = "Benchmark";
             _emptyPool.Return(item);
             return item;
@@ -35,7 +35,7 @@ namespace CloudDotNet.Benchmark.Pattern.Creational
         [Benchmark(Description = "Full pool Rent - Return")]
         public Test FullPoolRentReturn()
         {
-            var item = _fullPool.Rent();
+            var item = _fullPool.Borrow();
             item.Name = "Benchmark";
             _fullPool.Return(item);
             return item;

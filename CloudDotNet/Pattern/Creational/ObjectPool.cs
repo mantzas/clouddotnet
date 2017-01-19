@@ -10,28 +10,34 @@ namespace CloudDotNet.Pattern.Creational
         private readonly ConcurrentBag<T> _pool;
         private readonly Func<T> _objectFactory;
         private readonly Action<T> _objectSanitizer;
-        private readonly bool _areObjectsDisposable = typeof(IDisposable).IsAssignableFrom(typeof(T));
+        private readonly bool _areObjectsDisposable;
+        private readonly int _poolSize;
+        private readonly Action<string> _log;
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="objectFactory">The method to create objects</param>
-        /// <param name="objectSanitizer">The method to sanitize a object before returning it to the pool</param>
-        public ObjectPool(Func<T> objectFactory, Action<T> objectSanitizer)
+        public ObjectPool(int poolSize, Func<T> objectFactory) 
+            : this(poolSize, objectFactory, null, null)
         {
+        }
+
+        public ObjectPool(int poolSize, Func<T> objectFactory, Action<string> log)
+            : this(poolSize, objectFactory, null, log)
+        {
+        }
+
+        public ObjectPool(int poolSize, Func<T> objectFactory, Action<T> objectSanitizer, Action<string> log)
+        {
+            poolSize.ThrowIfLessOrEqual("poolSize", 0);
             objectFactory.ThrowIfNull("objectFactory");
-            objectSanitizer.ThrowIfNull("objectSanitizer");
 
             _pool = new ConcurrentBag<T>();
             _objectFactory = objectFactory;
             _objectSanitizer = objectSanitizer;
+            _areObjectsDisposable = typeof(IDisposable).IsAssignableFrom(typeof(T));
+            _poolSize = poolSize;
+            _log = log;
         }
 
-        /// <summary>
-        /// Rent a object from the pool
-        /// </summary>
-        /// <returns>Return a object from the pool or creates a new one if the pool is empty</returns>
-        public T Rent()
+        public T Borrow()
         {
             T result = null;
             if (_pool.TryTake(out result))
@@ -41,21 +47,18 @@ namespace CloudDotNet.Pattern.Creational
             return _objectFactory();
         }
 
-        /// <summary>
-        /// Return the object to the pool after usage.
-        /// The object will be sanitized before adding it to the pool.
-        /// </summary>
-        /// <param name="item">The object to return to the pool</param>
         public void Return(T item)
         {
-            _objectSanitizer(item);
+            if (_pool.Count >= _poolSize)
+            {
+                _log?.Invoke(string.Format("Maximum pool size [{0}] reached.", _poolSize));
+                return;
+            }
+
+            _objectSanitizer?.Invoke(item);
             _pool.Add(item);
         }
 
-        /// <summary>
-        /// The pool count
-        /// </summary>
-        /// <returns>The count of the objects in the pool</returns>
         public int Count
         {
             get

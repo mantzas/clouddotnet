@@ -3,7 +3,7 @@
     public interface IObjectPool<T> where T:class
     {
         int Count { get; }
-        T Rent();
+        T Borrow();
         void Return(T item);        
     }
 }

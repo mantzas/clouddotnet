@@ -8,23 +8,35 @@ namespace CloudDotNet.Tests.Unit.Pattern.Creational
     public class ObjectPoolTests
     {
         [Fact]
+        public void Constructor_PoolSizeInvalid_Throws()
+        {
+            Action act = () => new ObjectPool<string>(0, null);
+            act.ShouldThrow<ArgumentException>();
+        }
+
+        [Fact]
         public void Constructor_NullObjectFactory_Throws()
         {
-            Action act = () => new ObjectPool<string>(null, null);
+            Action act = () => new ObjectPool<string>(1000, null);
             act.ShouldThrow<ArgumentNullException>();
         }
 
         [Fact]
-        public void Constructor_NullObjectSanitizer_Throws()
+        public void Constructor_full_Success()
         {
-            Action act = () => new ObjectPool<string>(() => string.Empty , null);
-            act.ShouldThrow<ArgumentNullException>();
+            new ObjectPool<string>(1000, () => string.Empty, (message) => { }, (message) => { }).Should().NotBeNull();
         }
 
         [Fact]
-        public void Constructor_Success()
+        public void Constructor_missin_log_Success()
         {
-            CreatePool().Should().NotBeNull();
+            new ObjectPool<string>(1000, () => string.Empty, (message) => { }).Should().NotBeNull();
+        }
+
+        [Fact]
+        public void Constructor_missin_log_sanitizer_Success()
+        {
+            new ObjectPool<string>(1000, () => string.Empty).Should().NotBeNull();
         }
 
         [Fact]
@@ -32,7 +44,7 @@ namespace CloudDotNet.Tests.Unit.Pattern.Creational
         {
             var pool = CreatePool();
             pool.Count.Should().Be(0);
-            var item = pool.Rent();
+            var item = pool.Borrow();
             pool.Count.Should().Be(0);
             item.Should().NotBeNull();
             item.Name.Should().Be("Test");
@@ -45,10 +57,21 @@ namespace CloudDotNet.Tests.Unit.Pattern.Creational
             pool.Count.Should().Be(0);
             pool.Return(new Test { Name = "Test" });
             pool.Count.Should().Be(1);
-            var item = pool.Rent();
+            var item = pool.Borrow();
             pool.Count.Should().Be(0);
             item.Should().NotBeNull();
-            item.Name.Should().BeNull();
+            item.Name.Should().Be("Test");
+        }
+
+        [Fact]
+        public void Return_Full_Success()
+        {
+            var pool = CreatePool(1);
+            pool.Count.Should().Be(0);
+            pool.Return(new Test { Name = "Test" });
+            pool.Count.Should().Be(1);
+            pool.Return(new Test { Name = "Test" });
+            pool.Count.Should().Be(1);
         }
 
         [Fact]
@@ -99,9 +122,9 @@ namespace CloudDotNet.Tests.Unit.Pattern.Creational
             test.Name = null;
         }
 
-        private ObjectPool<Test> CreatePool()
+        private ObjectPool<Test> CreatePool(int poolSize = 1000)
         {
-            return new ObjectPool<Test>(() => Create(), Sanitize);
+            return new ObjectPool<Test>(poolSize,() => Create());
         }
     }
 }
