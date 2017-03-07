@@ -16,7 +16,7 @@ namespace CloudDotNet.Benchmark.Pattern.Behavioral.Cloud
 
         public CircuitBreakerBenchmark()
         {
-            _breaker = new CircuitBreaker(new Logger(), new Provider(), new string[] { "KEY" });
+            _breaker = new CircuitBreaker(new Logger(), new Provider(), new [] { "KEY" });
         }
 
         [Benchmark(Baseline = true, Description = "Sequential")]
@@ -75,7 +75,6 @@ namespace CloudDotNet.Benchmark.Pattern.Behavioral.Cloud
         {
             public Config()
             {
-                Add(MarkdownExporter.GitHub);
                 Add(StatisticColumn.Mean);
                 Add(StatisticColumn.StdErr);
                 Add(StatisticColumn.StdDev);

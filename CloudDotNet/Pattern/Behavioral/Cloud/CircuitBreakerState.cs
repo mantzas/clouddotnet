@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using CloudDotNet.Threading;
 
 namespace CloudDotNet.Pattern.Behavioral.Cloud
 {
@@ -8,43 +9,29 @@ namespace CloudDotNet.Pattern.Behavioral.Cloud
     /// </summary>
     public class CircuitBreakerState
     {
-        private static int usingResource = 0;
-        private int _currentFailureCount;
+        private static int _usingResource;
         private int _retrySuccessCount;
         private int _currentExecutions;
-        private DateTimeOffset _lastFailureTimestamp;
 
         /// <summary>
         /// The current failure count
         /// </summary>
-        public int CurrentFailureCount
-        {
-            get { return _currentFailureCount; }
-        }
+        public int CurrentFailureCount { get; private set; }
 
         /// <summary>
         /// The retry success count
         /// </summary>
-        public int RetrySuccessCount
-        {
-            get { return _retrySuccessCount; }
-        }
+        public int RetrySuccessCount => _retrySuccessCount;
 
         /// <summary>
         /// The time stamp of the last failure
         /// </summary>
-        public DateTimeOffset LastFailureTimestamp
-        {
-            get { return _lastFailureTimestamp; }
-        }
+        public DateTimeOffset LastFailureTimestamp { get; private set; }
 
         /// <summary>
         /// The active execution count
         /// </summary>
-        public int CurrentExecutions
-        {
-            get { return _currentExecutions; }
-        }
+        public int CurrentExecutions => _currentExecutions;
 
         /// <summary>
         /// Constructor
@@ -59,7 +46,7 @@ namespace CloudDotNet.Pattern.Behavioral.Cloud
         /// </summary>
         public void Reset()
         {
-            SafeExecute(ref usingResource, InnerReset);
+            GatedExecution.Execute(ref _usingResource, InnerReset);
         }
 
         /// <summary>
@@ -67,10 +54,10 @@ namespace CloudDotNet.Pattern.Behavioral.Cloud
         /// </summary>
         public void IncrementFailureCount()
         {
-            SafeExecute(ref usingResource, ()=> 
+            GatedExecution.Execute(ref _usingResource, ()=>
             {
-                _currentFailureCount++;
-                _lastFailureTimestamp = DateTimeOffset.UtcNow;
+                CurrentFailureCount++;
+                LastFailureTimestamp = DateTimeOffset.UtcNow;
             });
         }
 
@@ -105,7 +92,7 @@ namespace CloudDotNet.Pattern.Behavioral.Cloud
         /// <returns></returns>
         public CircuitBreakerStatus GetStatus(CircuitBreakerSetting setting)
         {
-            return SafeExecute(ref usingResource, ()=>GetInnerStatus(setting));
+            return GatedExecution.Execute(ref _usingResource, ()=>GetInnerStatus(setting));
         }
         
         /// <summary>
@@ -115,7 +102,7 @@ namespace CloudDotNet.Pattern.Behavioral.Cloud
         public override string ToString()
         {
             return string.Format("Circuit State: Executions={0} Failures={1} LastFailure={2} RetrySuccesses={3}",
-                                 _currentExecutions, _currentFailureCount, _lastFailureTimestamp.ToString("o"),
+                                 _currentExecutions, CurrentFailureCount, LastFailureTimestamp.ToString("o"),
                                  RetrySuccessCount);
         }
 
@@ -123,13 +110,13 @@ namespace CloudDotNet.Pattern.Behavioral.Cloud
         {
             var status = CircuitBreakerStatus.Open;
 
-            if (setting.FailureThreshold > _currentFailureCount)
+            if (setting.FailureThreshold > CurrentFailureCount)
             {
                 status = CircuitBreakerStatus.Closed;
             }
             else
             {
-                if (_lastFailureTimestamp + setting.RetryTimeout <= DateTimeOffset.UtcNow)
+                if (LastFailureTimestamp + setting.RetryTimeout <= DateTimeOffset.UtcNow)
                 {
                     if (_retrySuccessCount >= setting.RetrySuccessThreshold)
                     {
@@ -152,34 +139,9 @@ namespace CloudDotNet.Pattern.Behavioral.Cloud
 
         private void InnerReset()
         {
-            _currentFailureCount = 0;
-            _lastFailureTimestamp = DateTimeOffset.MaxValue.ToUniversalTime();
+            CurrentFailureCount = 0;
+            LastFailureTimestamp = DateTimeOffset.MaxValue.ToUniversalTime();
             _retrySuccessCount = 0;
-        }
-
-        private T SafeExecute<T>(ref int usingResource, Func<T> fun)
-        {
-            // Spin until we get a lock
-            while (0 != Interlocked.Exchange(ref usingResource, 1))
-            {
-                Thread.Sleep(0);
-            }
-
-            var result = fun();
-            Interlocked.Exchange(ref usingResource, 0);
-            return result;
-        }
-
-        private void SafeExecute(ref int usingResource, Action act)
-        {
-            // Spin until we get a lock
-            while (0 != Interlocked.Exchange(ref usingResource, 1))
-            {
-                Thread.Sleep(0);
-            }
-
-            act();
-            Interlocked.Exchange(ref usingResource, 0);
         }
     }
 }

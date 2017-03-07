@@ -15,9 +15,9 @@ namespace CloudDotNet.Benchmark.Pattern.Creational
 
         public ObjectPoolBenchmark()
         {
-            _emptyPool = new ObjectPool<Test>(1000,() => Create());
-            _fullPool = new ObjectPool<Test>(1000,() => Create());
-            for (int i = 0; i < 500; i++)
+            _emptyPool = new ObjectPool<Test>(1000,Create);
+            _fullPool = new ObjectPool<Test>(1000,Create);
+            for (var i = 0; i < 500; i++)
             {
                 _fullPool.Return(new Test());
             }            
@@ -45,7 +45,6 @@ namespace CloudDotNet.Benchmark.Pattern.Creational
         {
             public Config()
             {
-                Add(MarkdownExporter.GitHub);
                 Add(StatisticColumn.Mean);
                 Add(StatisticColumn.StdErr);
                 Add(StatisticColumn.StdDev);
@@ -70,37 +69,15 @@ namespace CloudDotNet.Benchmark.Pattern.Creational
         {
             public string Name { get; set; }
 
-            #region IDisposable Support
-
-            private bool disposedValue = false; // To detect redundant calls
-
-            protected virtual void Dispose(bool disposing)
-            {
-                if (!disposedValue)
-                {
-                    if (disposing)
-                    {
-                    }
-                    disposedValue = true;
-                }
-            }
 
             void IDisposable.Dispose()
             {
-                Dispose(true);
             }
-
-            #endregion
         }
 
-        private Test Create()
+        private static Test Create()
         {
             return new Test { Name = "Test" };
-        }
-
-        private void Sanitize(Test test)
-        {
-            test.Name = null;
         }
     }
 }
