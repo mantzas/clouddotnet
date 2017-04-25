@@ -1,4 +1,5 @@
 version: 0.1.{build}
+image: Visual Studio 2017
 branches:
   only:
   - master
@@ -7,9 +8,9 @@ build_script:
 - cmd: >-
     dotnet restore
 
-    dotnet build **/project.json
+    dotnet build -c Release
 
-    dotnet pack CloudDotNet
+    dotnet pack CloudDotNet -c Release
 test_script:
 - cmd: dotnet test CloudDotNet.Tests.Unit\
 artifacts:
