@@ -12,9 +12,9 @@ build_script:
 
     dotnet pack CloudDotNet -c Release
 test_script:
-- cmd: dotnet test CloudDotNet.Tests.Unit\
+- cmd: dotnet test CloudDotNet.Tests.Unit\CloudDotNet.Tests.Unit.csproj
 artifacts:
-- path: CloudDotNet\bin\Debug\*.nupkg
+- path: CloudDotNet\bin\Release\*.nupkg
   name: nuget
 deploy:
 - provider: NuGet
