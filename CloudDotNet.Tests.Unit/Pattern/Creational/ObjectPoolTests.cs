@@ -24,13 +24,19 @@ namespace CloudDotNet.Tests.Unit.Pattern.Creational
         [Fact]
         public void Constructor_full_Success()
         {
-            new ObjectPool<string>(1000, () => string.Empty, (message) => { }, (message) => { }).Should().NotBeNull();
+            new ObjectPool<string>(1000, () => string.Empty, (message) =>
+            {
+            }, (message) =>
+            {
+            }).Should().NotBeNull();
         }
 
         [Fact]
         public void Constructor_missin_log_Success()
         {
-            new ObjectPool<string>(1000, () => string.Empty, (message) => { }).Should().NotBeNull();
+            new ObjectPool<string>(1000, () => string.Empty, (message) =>
+            {
+            }).Should().NotBeNull();
         }
 
         [Fact]
@@ -91,14 +97,15 @@ namespace CloudDotNet.Tests.Unit.Pattern.Creational
 
             void IDisposable.Dispose()
             {
+                // Method intentionally left empty.
             }
         }
 
-        private static Test Create() => new Test { Name = "Test"};
+        private static Test Create() => new Test { Name = "Test" };
 
         private static ObjectPool<Test> CreatePool(int poolSize = 1000)
         {
-            return new ObjectPool<Test>(poolSize,Create);
+            return new ObjectPool<Test>(poolSize, Create);
         }
     }
 }

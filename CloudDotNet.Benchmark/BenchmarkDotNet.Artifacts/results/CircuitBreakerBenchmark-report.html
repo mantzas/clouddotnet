@@ -13,20 +13,20 @@
 </head>
 <body>
 <pre><code>
-BenchmarkDotNet=v0.10.3.0, OS=Microsoft Windows 10.0.14393
-Processor=Intel(R) Core(TM) i7-4700MQ CPU 2.40GHz, ProcessorCount=8
-Frequency=2338350 Hz, Resolution=427.6520 ns, Timer=TSC
-dotnet cli version=1.0.0
-  [Host]     : .NET Core 4.6.25009.03, 64bit RyuJIT
-  DefaultJob : .NET Core 4.6.25009.03, 64bit RyuJIT
+BenchmarkDotNet=v0.10.6, OS=Windows 10 Redstone 2 (10.0.15063)
+Processor=Intel Core i7-4700MQ CPU 2.40GHz (Haswell), ProcessorCount=8
+Frequency=2338344 Hz, Resolution=427.6531 ns, Timer=TSC
+dotnet cli version=1.0.4
+  [Host]     : .NET Core 4.6.25211.01, 64bit RyuJIT
+  DefaultJob : .NET Core 4.6.25211.01, 64bit RyuJIT
 </code></pre>
 <pre><code></code></pre>
 
 <table>
-<thead><tr><th>Method</th><th>     Mean</th><th>  StdDev</th><th> StdErr</th><th>      Min</th><th>       Q1</th><th>   Median</th><th>       Q3</th><th>      Max</th><th>       P0</th><th>      P25</th><th>      P50</th><th>      P80</th><th>      P85</th><th>      P90</th><th>      P95</th><th>     P100</th><th>Op/s</th><th>Scaled</th><th>Scaled-StdDev</th>
+<thead><tr><th>Method</th><th>  Mean</th><th>   Error</th><th>  StdDev</th><th> StdErr</th><th>   Min</th><th>    Q1</th><th>Median</th><th>    Q3</th><th>   Max</th><th>    P0</th><th>   P25</th><th>   P50</th><th>   P80</th><th>   P85</th><th>   P90</th><th>   P95</th><th>  P100</th><th> Op/s</th><th>Scaled</th><th>ScaledSD</th>
 </tr>
-</thead><tbody><tr><td>Sequential</td><td>400.7671 ns</td><td>2.3566 ns</td><td>0.6085 ns</td><td>397.2987 ns</td><td>399.2360 ns</td><td>400.7344 ns</td><td>402.5338 ns</td><td>406.3552 ns</td><td>397.2987 ns</td><td>399.4162 ns</td><td>400.7344 ns</td><td>402.5821 ns</td><td>402.7511 ns</td><td>402.9999 ns</td><td>404.1113 ns</td><td>406.3552 ns</td><td>2495215.03</td><td>1.00</td><td>   0.00</td>
-</tr><tr><td>Parallel</td><td>288,823.3100 ns</td><td>11,626.5545 ns</td><td>2,819.8537 ns</td><td>265,699.6164 ns</td><td>282,108.4640 ns</td><td>289,072.2168 ns</td><td>296,906.0994 ns</td><td>308,484.8602 ns</td><td>265,699.6164 ns</td><td>282,544.6774 ns</td><td>289,072.2168 ns</td><td>298,539.1119 ns</td><td>301,466.0222 ns</td><td>304,272.9894 ns</td><td>307,013.1360 ns</td><td>308,484.8602 ns</td><td>3462.32</td><td>720.70</td><td>  28.44</td>
+</thead><tbody><tr><td>Sequential</td><td>391.2 ns</td><td>0.8675 ns</td><td>0.6773 ns</td><td>0.1955 ns</td><td>390.0 ns</td><td>390.9 ns</td><td>391.3 ns</td><td>391.8 ns</td><td>392.1 ns</td><td>390.0 ns</td><td>391.0 ns</td><td>391.3 ns</td><td>391.8 ns</td><td>391.9 ns</td><td>391.9 ns</td><td>392.0 ns</td><td>392.1 ns</td><td>2,555,949.1</td><td>1.00</td><td>0.00</td>
+</tr><tr><td>Parallel</td><td>349,044.3 ns</td><td>19,271.6756 ns</td><td>56,822.9704 ns</td><td>5,682.2970 ns</td><td>246,609.3 ns</td><td>297,485.1 ns</td><td>348,155.7 ns</td><td>397,505.2 ns</td><td>453,680.7 ns</td><td>246,609.3 ns</td><td>297,788.5 ns</td><td>348,155.7 ns</td><td>402,075.6 ns</td><td>416,061.0 ns</td><td>422,274.4 ns</td><td>431,346.5 ns</td><td>453,680.7 ns</td><td>2,865.0</td><td>892.14</td><td>144.52</td>
 </tr></tbody></table>
 </body>
 </html>

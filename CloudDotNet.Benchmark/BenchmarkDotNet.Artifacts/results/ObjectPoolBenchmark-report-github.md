@@ -1,15 +1,15 @@
 ``` ini
 
-BenchmarkDotNet=v0.10.3.0, OS=Microsoft Windows 10.0.14393
-Processor=Intel(R) Core(TM) i7-4700MQ CPU 2.40GHz, ProcessorCount=8
-Frequency=2338350 Hz, Resolution=427.6520 ns, Timer=TSC
-dotnet cli version=1.0.0
-  [Host]     : .NET Core 4.6.25009.03, 64bit RyuJIT
-  DefaultJob : .NET Core 4.6.25009.03, 64bit RyuJIT
+BenchmarkDotNet=v0.10.6, OS=Windows 10 Redstone 2 (10.0.15063)
+Processor=Intel Core i7-4700MQ CPU 2.40GHz (Haswell), ProcessorCount=8
+Frequency=2338344 Hz, Resolution=427.6531 ns, Timer=TSC
+dotnet cli version=1.0.4
+  [Host]     : .NET Core 4.6.25211.01, 64bit RyuJIT
+  DefaultJob : .NET Core 4.6.25211.01, 64bit RyuJIT
 
 
 ```
- |                     Method |       Mean |    StdDev |    StdErr |        Min |         Q1 |     Median |         Q3 |        Max |         P0 |        P25 |        P50 |        P80 |        P85 |        P90 |        P95 |       P100 |        Op/s | Scaled | Scaled-StdDev |
- |--------------------------- |----------- |---------- |---------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |------------ |------- |-------------- |
- | 'Empty pool Rent - Return' | 70.5469 ns | 0.3238 ns | 0.0836 ns | 69.8554 ns | 70.3361 ns | 70.5630 ns | 70.7455 ns | 71.1830 ns | 69.8554 ns | 70.3434 ns | 70.5630 ns | 70.7459 ns | 70.7473 ns | 70.8525 ns | 71.0006 ns | 71.1830 ns |  14174968.9 |   1.00 |          0.00 |
- |  'Full pool Rent - Return' | 70.9818 ns | 0.4574 ns | 0.1181 ns | 70.1183 ns | 70.7080 ns | 70.8774 ns | 71.3355 ns | 71.8841 ns | 70.1183 ns | 70.7446 ns | 70.8774 ns | 71.3859 ns | 71.5620 ns | 71.6063 ns | 71.6986 ns | 71.8841 ns | 14088111.67 |   1.01 |          0.01 |
+ |                     Method |     Mean |     Error |    StdDev |    StdErr |      Min |       Q1 |   Median |       Q3 |      Max |       P0 |      P25 |      P50 |      P80 |      P85 |      P90 |      P95 |     P100 |         Op/s | Scaled |
+ |--------------------------- |---------:|----------:|----------:|----------:|---------:|---------:|---------:|---------:|---------:|---------:|---------:|---------:|---------:|---------:|---------:|---------:|---------:|-------------:|-------:|
+ | 'Empty pool Rent - Return' | 67.68 ns | 0.2535 ns | 0.1979 ns | 0.0571 ns | 67.36 ns | 67.56 ns | 67.66 ns | 67.84 ns | 68.00 ns | 67.36 ns | 67.58 ns | 67.66 ns | 67.89 ns | 67.92 ns | 67.92 ns | 67.96 ns | 68.00 ns | 14,774,769.7 |   1.00 |
+ |  'Full pool Rent - Return' | 67.94 ns | 0.4093 ns | 0.3418 ns | 0.0948 ns | 67.10 ns | 67.70 ns | 68.04 ns | 68.16 ns | 68.43 ns | 67.10 ns | 67.73 ns | 68.04 ns | 68.16 ns | 68.18 ns | 68.21 ns | 68.30 ns | 68.43 ns | 14,718,261.3 |   1.00 |
