@@ -11,14 +11,14 @@ namespace CloudDotNet.Tests.Unit.Pattern.Creational
         public void Constructor_PoolSizeInvalid_Throws()
         {
             Action act = () => new ObjectPool<string>(0, null);
-            act.ShouldThrow<ArgumentException>();
+            act.Should().Throw<ArgumentException>();
         }
 
         [Fact]
         public void Constructor_NullObjectFactory_Throws()
         {
             Action act = () => new ObjectPool<string>(1000, null);
-            act.ShouldThrow<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace CloudDotNet.Tests.Unit.Pattern.Creational
         }
 
         [Fact]
-        public void Constructor_missin_log_Success()
+        public void Constructor_missing_log_Success()
         {
             new ObjectPool<string>(1000, () => string.Empty, (message) =>
             {
@@ -40,7 +40,7 @@ namespace CloudDotNet.Tests.Unit.Pattern.Creational
         }
 
         [Fact]
-        public void Constructor_missin_log_sanitizer_Success()
+        public void Constructor_missing_log_sanitizer_Success()
         {
             new ObjectPool<string>(1000, () => string.Empty).Should().NotBeNull();
         }

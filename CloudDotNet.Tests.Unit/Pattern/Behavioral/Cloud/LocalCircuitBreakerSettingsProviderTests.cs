@@ -26,7 +26,7 @@ namespace CloudDotNet.Tests.Unit.Pattern.Behavioral.Cloud
         public void  Get_NotExisting()
         {
             Func<Task<CircuitBreakerSetting>> func = async () => await new LocalCircuitBreakerSettingsProvider().GetAsync("test").ConfigureAwait(false);
-            func.ShouldThrow<KeyNotFoundException>();
+            func.Should().Throw<KeyNotFoundException>();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace CloudDotNet.Tests.Unit.Pattern.Behavioral.Cloud
         public void Constructor_NullLogger_Throws()
         {
             Action act = () => new CircuitBreaker(null ,null, null);
-            act.ShouldThrow<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace CloudDotNet.Tests.Unit.Pattern.Behavioral.Cloud
         {
             var logger = Substitute.For<ILogger<CircuitBreaker>>();
             Action act = () => new CircuitBreaker(logger, null, null);
-            act.ShouldThrow<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
@@ -39,7 +39,7 @@ namespace CloudDotNet.Tests.Unit.Pattern.Behavioral.Cloud
             var logger = Substitute.For<ILogger<CircuitBreaker>>();
             var provider = Substitute.For<ICircuitBreakerSettingsProvider>();
             Action act = () => new CircuitBreaker(logger, provider, null);
-            act.ShouldThrow<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace CloudDotNet.Tests.Unit.Pattern.Behavioral.Cloud
             var logger = Substitute.For<ILogger<CircuitBreaker>>();
             var provider = Substitute.For<ICircuitBreakerSettingsProvider>();
             Action act = () => new CircuitBreaker(logger, provider, new string[0]);
-            act.ShouldThrow<ArgumentException>();
+            act.Should().Throw<ArgumentException>();
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace CloudDotNet.Tests.Unit.Pattern.Behavioral.Cloud
             var provider = Substitute.For<ICircuitBreakerSettingsProvider>();
             var circuit = new CircuitBreaker(logger, provider, new[] { key });
             Func<Task<string>> func = async () => await circuit.ExecuteAsync<string>(null, null).ConfigureAwait(false);
-            func.ShouldThrow<ArgumentException>();
+            func.Should().Throw<ArgumentException>();
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace CloudDotNet.Tests.Unit.Pattern.Behavioral.Cloud
             var provider = Substitute.For<ICircuitBreakerSettingsProvider>();
             var circuit = new CircuitBreaker(logger, provider, new[] { key });
             Func<Task<string>> func = async () => await circuit.ExecuteAsync<string>(key, null).ConfigureAwait(false);
-            func.ShouldThrow<ArgumentException>();
+            func.Should().Throw<ArgumentException>();
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace CloudDotNet.Tests.Unit.Pattern.Behavioral.Cloud
             provider.GetAsync(key).Returns(Task.FromResult(setting));
             var circuit = new CircuitBreaker(new TestLogger(_output), provider, new[] { key });
             Func<Task<string>> func = async () => await circuit.ExecuteAsync(key, ReturnThrows).ConfigureAwait(false);
-            func.ShouldThrow<Exception>();
+            func.Should().Throw<Exception>();
         }
 
         [Fact]
@@ -106,9 +106,9 @@ namespace CloudDotNet.Tests.Unit.Pattern.Behavioral.Cloud
             provider.GetAsync(key).Returns(Task.FromResult(setting));
             var circuit = new CircuitBreaker(new TestLogger(_output), provider, new[] { key });
             Func<Task<string>> func = async () => await circuit.ExecuteAsync(key, ReturnThrows).ConfigureAwait(false);
-            func.ShouldThrow<Exception>();
-            func.ShouldThrow<CircuitBreakerOpenException>();
-            func.ShouldThrow<CircuitBreakerOpenException>();
+            func.Should().Throw<Exception>();
+            func.Should().Throw<CircuitBreakerOpenException>();
+            func.Should().Throw<CircuitBreakerOpenException>();
         }
 
         [Fact]
@@ -120,8 +120,8 @@ namespace CloudDotNet.Tests.Unit.Pattern.Behavioral.Cloud
             provider.GetAsync(key).Returns(Task.FromResult(setting));
             var circuit = new CircuitBreaker(new TestLogger(_output), provider, new[] { key });
             Func<Task<string>> funcThrows = async () => await circuit.ExecuteAsync(key, ReturnThrows).ConfigureAwait(false);
-            funcThrows.ShouldThrow<Exception>();
-            funcThrows.ShouldThrow<CircuitBreakerOpenException>();
+            funcThrows.Should().Throw<Exception>();
+            funcThrows.Should().Throw<CircuitBreakerOpenException>();
             await Task.Delay(30).ConfigureAwait(false);
             var response = await circuit.ExecuteAsync(key, ReturnSuccess).ConfigureAwait(false);
             response.Should().BeNullOrEmpty();
