@@ -68,8 +68,7 @@ namespace CloudDotNet.Benchmark.Pattern.Creational
         public class Test : IDisposable
         {
             public string Name { get; set; }
-
-
+            
             void IDisposable.Dispose()
             {
             }
