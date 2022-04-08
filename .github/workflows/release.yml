@@ -26,6 +26,4 @@ jobs:
       
       - name: Publish Nuget package
         run: |
-          dotnet nuget push nupkg/ValidDotNet.${{ github.event.release.tag_name }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}  --skip-duplicate
-
-  
+          dotnet nuget push nupkg/ValidDotNet.${{ github.event.release.tag_name }}.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}  --skip-duplicate  
