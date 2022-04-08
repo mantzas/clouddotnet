@@ -1,9 +1,8 @@
-﻿namespace CloudDotNet.Pattern.Creational
+﻿namespace CloudDotNet.Pattern.Creational;
+
+public interface IObjectPool<T> where T:class
 {
-    public interface IObjectPool<T> where T:class
-    {
-        int Count { get; }
-        T Borrow();
-        void Return(T item);        
-    }
+    int Count { get; }
+    T Borrow();
+    void Return(T item);        
 }

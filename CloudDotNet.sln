@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudDotNet", "CloudDotNet\CloudDotNet.csproj", "{BB125A28-76DC-405A-A3FD-AEC22F4CD370}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudDotNet", "CloudDotNet\CloudDotNet.csproj", "{7A25EA2E-BEE3-4A3A-A857-C66E6ECA0733}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudDotNet.Benchmark", "CloudDotNet.Benchmark\CloudDotNet.Benchmark.csproj", "{102BE6DF-9046-48BF-A745-A88A3E65D115}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudDotNet.Tests.Unit", "CloudDotNet.Tests.Unit\CloudDotNet.Tests.Unit.csproj", "{8695109E-8679-4E3F-9886-30B6DDB581E0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudDotNet.Tests.Unit", "CloudDotNet.Tests.Unit\CloudDotNet.Tests.Unit.csproj", "{CD3FE0F3-E69D-4508-88EE-3EEC4FB0FAA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudDotNet.Benchmark", "CloudDotNet.Benchmark\CloudDotNet.Benchmark.csproj", "{C66FCADB-3146-4A2A-98E0-A950B7C86B08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BB125A28-76DC-405A-A3FD-AEC22F4CD370}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BB125A28-76DC-405A-A3FD-AEC22F4CD370}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BB125A28-76DC-405A-A3FD-AEC22F4CD370}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BB125A28-76DC-405A-A3FD-AEC22F4CD370}.Release|Any CPU.Build.0 = Release|Any CPU
-		{102BE6DF-9046-48BF-A745-A88A3E65D115}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{102BE6DF-9046-48BF-A745-A88A3E65D115}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{102BE6DF-9046-48BF-A745-A88A3E65D115}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{102BE6DF-9046-48BF-A745-A88A3E65D115}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CD3FE0F3-E69D-4508-88EE-3EEC4FB0FAA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD3FE0F3-E69D-4508-88EE-3EEC4FB0FAA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CD3FE0F3-E69D-4508-88EE-3EEC4FB0FAA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CD3FE0F3-E69D-4508-88EE-3EEC4FB0FAA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A25EA2E-BEE3-4A3A-A857-C66E6ECA0733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A25EA2E-BEE3-4A3A-A857-C66E6ECA0733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A25EA2E-BEE3-4A3A-A857-C66E6ECA0733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A25EA2E-BEE3-4A3A-A857-C66E6ECA0733}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8695109E-8679-4E3F-9886-30B6DDB581E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8695109E-8679-4E3F-9886-30B6DDB581E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8695109E-8679-4E3F-9886-30B6DDB581E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8695109E-8679-4E3F-9886-30B6DDB581E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C66FCADB-3146-4A2A-98E0-A950B7C86B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C66FCADB-3146-4A2A-98E0-A950B7C86B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C66FCADB-3146-4A2A-98E0-A950B7C86B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C66FCADB-3146-4A2A-98E0-A950B7C86B08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
