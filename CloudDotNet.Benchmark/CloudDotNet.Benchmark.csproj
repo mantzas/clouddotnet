@@ -1,38 +1,25 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <VersionPrefix>0.1.0</VersionPrefix>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <AssemblyName>CloudDotNet.Benchmark</AssemblyName>
-    <OutputType>Exe</OutputType>
-    <PackageId>CloudDotNet.Benchmark</PackageId>
-    <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
-    <AssetTargetFallback>$(AssetTargetFallback);dnxcore50</AssetTargetFallback>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>CloudDotNet.Benchmark</AssemblyName>
+        <RootNamespace>CloudDotNet.Benchmark</RootNamespace>
+        <IsPackable>false</IsPackable>
+        <PackageId>CloudDotNet.Benchmark</PackageId>
+        <Authors>CloudDotNet.Benchmark</Authors>
+        <Company>CloudDotNet.Benchmark</Company>
+        <Product>CloudDotNet.Benchmark</Product>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="bin\Release\netcoreapp2.0\BenchmarkDotNet.Artifacts\results\CircuitBreakerBenchmark-report.html" />
-    <Content Include="bin\Release\netcoreapp2.0\BenchmarkDotNet.Artifacts\results\ObjectPoolBenchmark-report.html" />
-  </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Include="bin\Release\netcoreapp2.0\BenchmarkDotNet.Artifacts\CircuitBreakerBenchmark.log" />
-    <None Include="bin\Release\netcoreapp2.0\BenchmarkDotNet.Artifacts\ObjectPoolBenchmark.log" />
-    <None Include="bin\Release\netcoreapp2.0\BenchmarkDotNet.Artifacts\results\CircuitBreakerBenchmark-report-github.md" />
-    <None Include="bin\Release\netcoreapp2.0\BenchmarkDotNet.Artifacts\results\CircuitBreakerBenchmark-report.csv" />
-    <None Include="bin\Release\netcoreapp2.0\BenchmarkDotNet.Artifacts\results\ObjectPoolBenchmark-report-github.md" />
-    <None Include="bin\Release\netcoreapp2.0\BenchmarkDotNet.Artifacts\results\ObjectPoolBenchmark-report.csv" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CloudDotNet\CloudDotNet.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.10.13" />
-  </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\CloudDotNet\CloudDotNet.csproj" />
+    </ItemGroup>
 
 </Project>

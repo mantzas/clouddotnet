@@ -1,20 +1,16 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿namespace CloudDotNet.Pattern.Behavioral.Cloud;
 
-namespace CloudDotNet.Pattern.Behavioral.Cloud
+/// <summary>
+/// The Circuit Breaker interface
+/// </summary>
+public interface ICircuitBreaker
 {
     /// <summary>
-    /// The Circuit Breaker interface
+    /// Execution of the func
     /// </summary>
-    public interface ICircuitBreaker
-    {
-        /// <summary>
-        /// Execution of the func
-        /// </summary>
-        /// <typeparam name="T">The return parameter of the func</typeparam>
-        /// <param name="key">The state key to use</param>
-        /// <param name="func">The func to be executed</param>
-        /// <returns>The return parameter of the func</returns>
-        Task<T> ExecuteAsync<T>(string key, Func<Task<T>> func);
-    }
+    /// <typeparam name="T">The return parameter of the func</typeparam>
+    /// <param name="key">The state key to use</param>
+    /// <param name="func">The func to be executed</param>
+    /// <returns>The return parameter of the func</returns>
+    Task<T> ExecuteAsync<T>(string key, Func<Task<T>> func);
 }
